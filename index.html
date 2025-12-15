@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Phygital Hub - Dashboard Completo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #00C853;
+            --dark-green: #00A843;
+            --light-green: #B2FF59;
+            --accent-green: #69F0AE;
+            --bg-dark: #0A1612;
+            --bg-card: #142820;
+            --bg-hover: #1A3428;
+            --text-light: #E8F5E9;
+            --text-gray: #A5D6A7;
+            --border-color: #2E4A3E;
+            --shadow: 0 4px 24px rgba(0, 200, 83, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0D1F17 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 260px;
+            overflow-y: auto;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3);
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text-light);
+        }
+
+        .logo-subtitle {
+            font-size: 11px;
+            color: var(--text-gray);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-gray);
+            margin-bottom: 12px;
+            padding-left: 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-light);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 200, 83, 0.3);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--primary-green);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 32px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 200, 83, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 200, 83, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-light);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green) 0%, var(--light-green) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.1) 0%, rgba(178, 255, 89, 0.1) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-trend {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(0, 200, 83, 0.15);
+            color: var(--light-green);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary-green);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        /* Module Cards */
+        .modules-section {
+            margin-bottom: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(0, 200, 83, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .module-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .module-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3);
+        }
+
+        .module-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .module-desc {
+            font-size: 13px;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .module-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(0, 200, 83, 0.15);
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--light-green);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            text-align: left;
+            padding: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table td {
+            padding: 16px 12px;
+            font-size: 14px;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table tr:hover td {
+            background: var(--bg-hover);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(0, 200, 83, 0.15);
+            color: var(--light-green);
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.15);
+            color: #FFD54F;
+        }
+
+        .status-closed {
+            background: rgba(158, 158, 158, 0.15);
+            color: #BDBDBD;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 22, 18, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            padding: 24px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .close-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        /* Camera Grid */
+        .camera-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .camera-feed {
+            background: #000;
+            border-radius: 12px;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .camera-label {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .camera-status {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--primary-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .stats-grid,
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .camera-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <div class="logo">QM</div>
+                <div>
+                    <div class="logo-text">Quantum Hub</div>
+                    <div class="logo-subtitle">Phygital Platform</div>
+                </div>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-title">Principal</div>
+                    <div class="nav-item active" onclick="showSection('dashboard')">
+                        <span class="nav-icon">📊</span>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item" onclick="openCRM()">
+                        <span class="nav-icon">👥</span>
+                        <span>CRM Leads</span>
+                        <span class="nav-badge">5</span>
+                    </div>
+                    <div class="nav-item" onclick="showSection('ventas')">
+                        <span class="nav-icon">💰</span>
+                        <span>Ventas</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Inventario</div>
+                    <div class="nav-item" onclick="showSection('stock')">
+                        <span class="nav-icon">📦</span>
+                        <span>Stock Almacén</span>
+                    </div>
+                    <div class="nav-item" onclick="openModal('pasillo-infinito')">
+                        <span class="nav-icon">🚗</span>
+                        <span>Pasillo Infinito</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Finanzas</div>
+                    <div class="nav-item" onclick="openModal('calculadora')">
+                        <span class="nav-icon">🧮</span>
+                        <span>Calculadora</span>
+                    </div>
+                    <div class="nav-item" onclick="openModal('caja-chica')">
+                        <span class="nav-icon">💵</span>
+                        <span>Caja Chica</span>
+                    </div>
+                    <div class="nav-item" onclick="window.open('https://docs.google.com/spreadsheets/d/1XTdoE9agjss_OZJUXsqcQo8wdhWk4PYJh2vcCTpClso/edit?usp=drive_link', '_blank')">
+                        <span class="nav-icon">🏦</span>
+                        <span>Banco Unión</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Operaciones</div>
+                    <div class="nav-item" onclick="openModal('admin-tienda')">
+                        <span class="nav-icon">🏪</span>
+                        <span>Admin Tienda</span>
+                    </div>
+                    <div class="nav-item" onclick="openModal('seguridad')">
+                        <span class="nav-icon">📹</span>
+                        <span>Seguridad</span>
+                    </div>
+                    <div class="nav-item" onclick="openModal('automatizacion')">
+                        <span class="nav-icon">⚡</span>
+                        <span>Automatización</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Recursos</div>
+                    <div class="nav-item" onclick="window.open('https://drive.google.com/drive/folders/150aWv5Ea_cKWzHpglEIS4f05D3mAtVbM?usp=drive_link', '_blank')">
+                        <span class="nav-icon">📱</span>
+                        <span>Fichas Técnicas</span>
+                    </div>
+                    <div class="nav-item" onclick="window.open('https://forms.gle/wXY3LUMDftR6tASX9', '_blank')">
+                        <span class="nav-icon">📝</span>
+                        <span>Reservas</span>
+                    </div>
+                    <div class="nav-item" onclick="window.open('https://tuquantum.com', '_blank')">
+                        <span class="nav-icon">🌐</span>
+                        <span>Página Web</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section">
+                <div class="header">
+                    <h1 class="header-title">Dashboard Phygital</h1>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary">
+                            <span>📅</span>
+                            <span>Hoy</span>
+                        </button>
+                        <button class="btn btn-primary">
+                            <span>➕</span>
+                            <span>Nuevo Lead</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-trend">+12%</div>
+                        </div>
+                        <div class="stat-value">Bs. 1.2M</div>
+                        <div class="stat-label">Ventas del Mes</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">🚗</div>
+                            <div class="stat-trend">+5</div>
+                        </div>
+                        <div class="stat-value">23</div>
+                        <div class="stat-label">Vehículos Vendidos</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-trend">+18</div>
+                        </div>
+                        <div class="stat-value">145</div>
+                        <div class="stat-label">Leads Activos</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">📦</div>
+                            <div class="stat-trend">-3</div>
+                        </div>
+                        <div class="stat-value">67</div>
+                        <div class="stat-label">Stock Disponible</div>
+                    </div>
+                </div>
+
+                <!-- Modules -->
+                <div class="modules-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Herramientas Phygital</h2>
+                    </div>
+                    <div class="modules-grid">
+                        <div class="module-card" onclick="openCRM()">
+                            <div class="module-icon">👥</div>
+                            <div class="module-title">CRM Inteligente</div>
+                            <div class="module-desc">Gestión completa de leads con IA integrada y automatización de seguimiento.</div>
+                            <div class="module-badge">🔗 Live</div>
+                        </div>
+
+                        <div class="module-card" onclick="openModal('calculadora')">
+                            <div class="module-icon">🧮</div>
+                            <div class="module-title">Calculadora Financiera</div>
+                            <div class="module-desc">Simula opciones de crédito y compara planes al instante.</div>
+                            <div class="module-badge">⚡ Rápido</div>
+                        </div>
+
+                        <div class="module-card" onclick="openModal('seguridad')">
+                            <div class="module-icon">📹</div>
+                            <div class="module-title">Seguridad 360</div>
+                            <div class="module-desc">Monitoreo en tiempo real de todas las cámaras de la tienda.</div>
+                            <div class="module-badge">🔴 Live</div>
+                        </div>
+
+                        <div class="module-card" onclick="openModal('automatizacion')">
+                            <div class="module-icon">⚡</div>
+                            <div class="module-title">Automatización N8N</div>
+                            <div class="module-desc">Flujos automatizados para WhatsApp, email y tareas repetitivas.</div>
+                            <div class="module-badge">🤖 AI</div>
+                        </div>
+
+                        <div class="module-card" onclick="openModal('caja-chica')">
+                            <div class="module-icon">💵</div>
+                            <div class="module-title">Caja Chica</div>
+                            <div class="module-desc">Control de gastos operativos y rendición de cuentas diaria.</div>
+                            <div class="module-badge">📊 Control</div>
+                        </div>
+
+                        <div class="module-card" onclick="openModal('admin-tienda')">
+                            <div class="module-icon">🏪</div>
+                            <div class="module-title">Admin Tienda</div>
+                            <div class="module-desc">Gestión completa: horarios, personal, inventario y operaciones.</div>
+                            <div class="module-badge">⚙️ Admin</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="table-container">
+                    <div class="section-header">
+                        <h2 class="section-title">Actividad Reciente</h2>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Acción</th>
+                                <th>Vehículo</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Juan Pérez</td>
+                                <td>Test Drive</td>
+                                <td>Quantum E4</td>
+                                <td><span class="status-badge status-active">Activo</span></td>
+                                <td>Hoy, 14:30</td>
+                            </tr>
+                            <tr>
+                                <td>María López</td>
+                                <td>Cotización</td>
+                                <td>Quantum E6 Premium</td>
+                                <td><span class="status-badge status-pending">Pendiente</span></td>
+                                <td>Hoy, 11:20</td>
+                            </tr>
+                            <tr>
+                                <td>Carlos Ramírez</td>
+                                <td>Venta Cerrada</td>
+                                <td>Quantum E5 SUV</td>
+                                <td><span class="status-badge status-closed">Completado</span></td>
+                                <td>Ayer, 16:45</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: Seguridad -->
+    <div id="seguridad" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📹 Sistema de Seguridad - Monitoreo en Vivo</h2>
+                <button class="close-btn" onclick="closeModal('seguridad')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="camera-grid">
+                    <div class="camera-feed">
+                        📹
+                        <div class="camera-label">Showroom Principal</div>
+                        <div class="camera-status"></div>
+                    </div>
+                    <div class="camera-feed">
+                        📹
+                        <div class="camera-label">Entrada Principal</div>
+                        <div class="camera-status"></div>
+                    </div>
+                    <div class="camera-feed">
+                        📹
+                        <div class="camera-label">Área de Servicio</div>
+                        <div class="camera-status"></div>
+                    </div>
+                    <div class="camera-feed">
+                        📹
+                        <div class="camera-label">Estacionamiento</div>
+                        <div class="camera-status"></div>
+                    </div>
+                </div>
+                <div style="margin-top: 24px; padding: 16px; background: rgba(0, 200, 83, 0.1); border-radius: 12px; border-left: 4px solid var(--primary-green);">
+                    <strong>💡 Nota:</strong> Conecta tu sistema de cámaras IP para visualización en tiempo real. Compatible con la mayoría de sistemas DVR/NVR.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Calculadora -->
+    <div id="calculadora" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🧮 Calculadora Financiera Inteligente</h2>
+                <button class="close-btn" onclick="closeModal('calculadora')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; gap: 20px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Precio del Vehículo (Bs.)</label>
+                        <input type="number" id="vehiclePrice" value="185000" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-light); font-size: 16px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Cuota Inicial (Bs.)</label>
+                        <input type="number" id="downPayment" value="50000" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-dark); color: var(--text-light); font-size: 16px;">
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="calculateFinancing()">
+                        <span>💰</span>
+                        <span>Calcular Opciones</span>
+                    </button>
+                    <div id="results" style="display: none; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px;">
+                        <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
+                            <div style="font-size: 13px; color: var(--text-gray); margin-bottom: 12px;">BANCO BISA</div>
+                            <div id="bisaAmount" style="font-size: 28px; font-weight: 800; color: var(--primary-green); margin-bottom: 8px;">Bs. 3,450</div>
+                            <div id="bisaDetails" style="font-size: 12px; color: var(--text-gray);">Mensual - 48 meses</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, rgba(0, 200, 83, 0.1) 0%, rgba(178, 255, 89, 0.1) 100%); padding: 20px; border-radius: 12px; border: 2px solid var(--primary-green); text-align: center;">
+                            <div style="font-size: 13px; color: var(--text-gray); margin-bottom: 12px;">PLAN QUANTUM</div>
+                            <div id="quantumAmount" style="font-size: 28px; font-weight: 800; color: var(--primary-green); margin-bottom: 8px;">Bs. 3,100</div>
+                            <div id="quantumDetails" style="font-size: 12px; color: var(--text-gray); margin-bottom: 8px;">Mensual - 48 meses</div>
+                            <div style="padding: 4px 12px; background: var(--primary-green); color: white; border-radius: 6px; font-size: 11px; font-weight: 700; display: inline-block;">MEJOR OPCIÓN</div>
+                        </div>
+                        <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
+                            <div style="font-size: 13px; color: var(--text-gray); margin-bottom: 12px;">COOPERATIVA</div>
+                            <div id="coopAmount" style="font-size: 28px; font-weight: 800; color: var(--primary-green); margin-bottom: 8px;">Bs. 3,280</div>
+                            <div id="coopDetails" style="font-size: 12px; color: var(--text-gray);">Mensual - 48 meses</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Caja Chica -->
+    <div id="caja-chica" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">💵 Caja Chica - Control de Gastos</h2>
+                <button class="close-btn" onclick="closeModal('caja-chica')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; gap: 20px;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
+                            <div style="font-size: 13px; color: var(--text-gray); margin-bottom: 8px;">SALDO INICIAL</div>
+                            <div style="font-size: 28px; font-weight: 800; color: var(--primary-green);">Bs. 5,000</div>
+                        </div>
+                        <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
+                            <div style="font-size: 13px; color: var(--text-gray); margin-bottom: 8px;">GASTOS HOY</div>
+                            <div style="font-size: 28px; font-weight: 800; color: #FF5252;">Bs. 1,240</div>
+                        </div>
+                        <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
+                            <div style="font-size: 13px; color: var(--text-gray); margin-bottom: 8px;">SALDO ACTUAL</div>
+                            <div style="font-size: 28px; font-weight: 800; color: var(--primary-green);">Bs. 3,760</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--bg-dark); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">Registrar Nuevo Gasto</h3>
+                        <div style="display: grid; gap: 16px;">
+                            <input type="text" placeholder="Concepto" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light);">
+                            <input type="number" placeholder="Monto (Bs.)" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light);">
+                            <select style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light);">
+                                <option>Categoría</option>
+                                <option>Combustible</option>
+                                <option>Limpieza</option>
+                                <option>Materiales</option>
+                                <option>Alimentos</option>
+                                <option>Otros</option>
+                            </select>
+                            <button class="btn btn-primary" style="width: 100%;">Registrar Gasto</button>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--bg-dark); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">Gastos Recientes</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 4px;">Combustible</div>
+                                    <div style="font-size: 12px; color: var(--text-gray);">Hoy, 10:30</div>
+                                </div>
+                                <div style="font-size: 18px; font-weight: 700; color: #FF5252;">Bs. 520</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 4px;">Materiales de limpieza</div>
+                                    <div style="font-size: 12px; color: var(--text-gray);">Hoy, 09:15</div>
+                                </div>
+                                <div style="font-size: 18px; font-weight: 700; color: #FF5252;">Bs. 380</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 4px;">Almuerzos equipo</div>
+                                    <div style="font-size: 12px; color: var(--text-gray);">Hoy, 13:00</div>
+                                </div>
+                                <div style="font-size: 18px; font-weight: 700; color: #FF5252;">Bs. 340</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Admin Tienda -->
+    <div id="admin-tienda" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🏪 Administración de Tienda</h2>
+                <button class="close-btn" onclick="closeModal('admin-tienda')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; gap: 24px;">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                        <div style="background: var(--bg-dark); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+                            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">👥 Personal en Tienda</h3>
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-green); display: flex; align-items: center; justify-content: center; font-weight: 700;">JP</div>
+                                    <div>
+                                        <div style="font-weight: 600;">Juan Pérez</div>
+                                        <div style="font-size: 12px; color: var(--text-gray);">Asesor Senior</div>
+                                    </div>
+                                    <div style="margin-left: auto; padding: 4px 10px; background: rgba(0, 200, 83, 0.15); color: var(--light-green); border-radius: 6px; font-size: 11px; font-weight: 600;">ACTIVO</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-green); display: flex; align-items: center; justify-content: center; font-weight: 700;">ML</div>
+                                    <div>
+                                        <div style="font-weight: 600;">María López</div>
+                                        <div style="font-size: 12px; color: var(--text-gray);">Asesora</div>
+                                    </div>
+                                    <div style="margin-left: auto; padding: 4px 10px; background: rgba(0, 200, 83, 0.15); color: var(--light-green); border-radius: 6px; font-size: 11px; font-weight: 600;">ACTIVO</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #666; display: flex; align-items: center; justify-content: center; font-weight: 700;">CR</div>
+                                    <div>
+                                        <div style="font-weight: 600;">Carlos Ruiz</div>
+                                        <div style="font-size: 12px; color: var(--text-gray);">Gerente</div>
+                                    </div>
+                                    <div style="margin-left: auto; padding: 4px 10px; background: rgba(158, 158, 158, 0.15); color: #BDBDBD; border-radius: 6px; font-size: 11px; font-weight: 600;">AUSENTE</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: var(--bg-dark); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+                            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">🕐 Horarios</h3>
+                            <div style="font-size: 14px; line-height: 2;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span style="color: var(--text-gray);">Lunes - Viernes:</span>
+                                    <span style="font-weight: 600;">9:00 - 18:00</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span style="color: var(--text-gray);">Sábados:</span>
+                                    <span style="font-weight: 600;">9:00 - 14:00</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                                    <span style="color: var(--text-gray);">Domingos:</span>
+                                    <span style="font-weight: 600;">Cerrado</span>
+                                </div>
+                                <div style="padding: 12px; background: rgba(0, 200, 83, 0.1); border-radius: 8px; border-left: 3px solid var(--primary-green);">
+                                    <div style="font-weight: 600; margin-bottom: 4px;">Estado Actual</div>
+                                    <div style="font-size: 13px; color: var(--text-gray);">Tienda ABIERTA</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--bg-dark); padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">📊 Métricas del Día</h3>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: 800; color: var(--primary-green); margin-bottom: 4px;">24</div>
+                                <div style="font-size: 12px; color: var(--text-gray);">Visitas</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: 800; color: var(--primary-green); margin-bottom: 4px;">8</div>
+                                <div style="font-size: 12px; color: var(--text-gray);">Test Drives</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: 800; color: var(--primary-green); margin-bottom: 4px;">5</div>
+                                <div style="font-size: 12px; color: var(--text-gray);">Cotizaciones</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: 800; color: var(--primary-green); margin-bottom: 4px;">2</div>
+                                <div style="font-size: 12px; color: var(--text-gray);">Ventas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Automatización -->
+    <div id="automatizacion" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">⚡ Automatización con N8N</h2>
+                <button class="close-btn" onclick="closeModal('automatizacion')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; gap: 20px;">
+                    <div style="padding: 20px; background: rgba(0, 200, 83, 0.1); border-radius: 12px; border-left: 4px solid var(--primary-green);">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">🤖 Flujos Activos</h3>
+                        <div style="font-size: 14px; color: var(--text-gray); margin-bottom: 16px;">
+                            Automatizaciones inteligentes conectadas con tu CRM, WhatsApp y sistemas internos.
+                        </div>
+                    </div>
+
+                    <div style="display: grid; gap: 16px;">
+                        <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                                <div>
+                                    <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">📱 WhatsApp Auto-Respuesta</div>
+                                    <div style="font-size: 13px; color: var(--text-gray);">Responde automáticamente a consultas frecuentes 24/7</div>
+                                </div>
+                                <div style="padding: 4px 12px; background: rgba(0, 200, 83, 0.15); color: var(--light-green); border-radius: 6px; font-size: 11px; font-weight: 700;">ACTIVO</div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-gray);">
+                                <strong>Última ejecución:</strong> Hace 5 minutos | <strong>Mensajes procesados hoy:</strong> 47
+                            </div>
+                        </div>
+
+                        <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                                <div>
+                                    <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">📧 Email de Seguimiento</div>
+                                    <div style="font-size: 13px; color: var(--text-gray);">Envía emails personalizados post test-drive</div>
+                                </div>
+                                <div style="padding: 4px 12px; background: rgba(0, 200, 83, 0.15); color: var(--light-green); border-radius: 6px; font-size: 11px; font-weight: 700;">ACTIVO</div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-gray);">
+                                <strong>Última ejecución:</strong> Hace 1 hora | <strong>Emails enviados hoy:</strong> 12
+                            </div>
+                        </div>
+
+                        <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                                <div>
+                                    <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">🔔 Notificaciones de Leads</div>
+                                    <div style="font-size: 13px; color: var(--text-gray);">Alerta al equipo cuando llega un lead calificado</div>
+                                </div>
+                                <div style="padding: 4px 12px; background: rgba(0, 200, 83, 0.15); color: var(--light-green); border-radius: 6px; font-size: 11px; font-weight: 700;">ACTIVO</div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-gray);">
+                                <strong>Última ejecución:</strong> Hace 15 minutos | <strong>Notificaciones hoy:</strong> 18
+                            </div>
+                        </div>
+
+                        <div style="background: var(--bg-dark); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                                <div>
+                                    <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px;">📊 Reportes Automáticos</div>
+                                    <div style="font-size: 13px; color: var(--text-gray);">Genera y envía reportes diarios de ventas a gerencia</div>
+                                </div>
+                                <div style="padding: 4px 12px; background: rgba(0, 200, 83, 0.15); color: var(--light-green); border-radius: 6px; font-size: 11px; font-weight: 700;">ACTIVO</div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-gray);">
+                                <strong>Próxima ejecución:</strong> Hoy, 18:00 | <strong>Reportes enviados esta semana:</strong> 5
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%;">
+                        <span>➕</span>
+                        <span>Crear Nuevo Flujo de Automatización</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Pasillo Infinito -->
+    <div id="pasillo-infinito" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🚗 Pasillo Infinito - Stock Nacional</h2>
+                <button class="close-btn" onclick="closeModal('pasillo-infinito')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="padding: 16px; background: rgba(0, 200, 83, 0.1); border-radius: 12px; border-left: 4px solid var(--primary-green); margin-bottom: 20px;">
+                    <strong>📊 Inventario en Tiempo Real</strong><br>
+                    <span style="font-size: 13px; color: var(--text-gray);">Visualiza todos los vehículos disponibles en el inventario nacional con precios actualizados.</span>
+                </div>
+                <button class="btn btn-primary" style="margin-bottom: 20px;" onclick="window.open('https://docs.google.com/spreadsheets/d/1a7e3d5hI8siGPg1fxvUgtbxVFpGDuxnpMsEAdxXtavI/edit?usp=drive_link', '_blank')">
+                    <span>🔗</span>
+                    <span>Abrir Lista Completa</span>
+                </button>
+                <iframe src="https://docs.google.com/spreadsheets/d/1a7e3d5hI8siGPg1fxvUgtbxVFpGDuxnpMsEAdxXtavI/edit?usp=drive_link&rm=minimal&widget=true&headers=false" style="width: 100%; height: 600px; border: 1px solid var(--border-color); border-radius: 12px;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openCRM() {
+            window.open('https://quantum.aurantis.lat', '_blank');
+        }
+
+        function calculateFinancing() {
+            const price = parseFloat(document.getElementById('vehiclePrice').value) || 185000;
+            const down = parseFloat(document.getElementById('downPayment').value) || 50000;
+            const financed = price - down;
+            const months = 48;
+
+            const bisaRate = 0.12;
+            const quantumRate = 0.08;
+            const coopRate = 0.10;
+
+            function calcPayment(principal, annualRate, months) {
+                const monthlyRate = annualRate / 12;
+                const payment = principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+                               (Math.pow(1 + monthlyRate, months) - 1);
+                return Math.round(payment);
+            }
+
+            const bisaPayment = calcPayment(financed, bisaRate, months);
+            const quantumPayment = calcPayment(financed, quantumRate, months);
+            const coopPayment = calcPayment(financed, coopRate, months);
+
+            document.getElementById('bisaAmount').textContent = 'Bs. ' + bisaPayment.toLocaleString();
+            document.getElementById('bisaDetails').textContent = `Mensual - ${months} meses (12% anual)`;
+            
+            document.getElementById('quantumAmount').textContent = 'Bs. ' + quantumPayment.toLocaleString();
+            document.getElementById('quantumDetails').textContent = `Mensual - ${months} meses (8% anual)`;
+            
+            document.getElementById('coopAmount').textContent = 'Bs. ' + coopPayment.toLocaleString();
+            document.getElementById('coopDetails').textContent = `Mensual - ${months} meses (10% anual)`;
+
+            document.getElementById('results').style.display = 'grid';
+        }
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
