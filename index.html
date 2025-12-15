@@ -632,6 +632,10 @@
                         <span class="nav-icon">🧮</span>
                         <span>Calculadora</span>
                     </div>
+                    <div class="nav-item" onclick="openModal('comparativa-electrico')">
+                        <span class="nav-icon">🔋</span>
+                        <span>Eléctrico vs Gasolina</span>
+                    </div>
                     <div class="nav-item" onclick="openModal('caja-chica')">
                         <span class="nav-icon">💵</span>
                         <span>Caja Chica</span>
@@ -759,6 +763,13 @@
                             <div class="module-title">Calculadora Financiera</div>
                             <div class="module-desc">Simula opciones de crédito y compara planes al instante.</div>
                             <div class="module-badge">⚡ Rápido</div>
+                        </div>
+
+                        <div class="module-card" onclick="openModal('comparativa-electrico')">
+                            <div class="module-icon">🔋</div>
+                            <div class="module-title">Eléctrico vs Gasolina</div>
+                            <div class="module-desc">Calcula ahorro, ventajas en altura y beneficio ambiental.</div>
+                            <div class="module-badge">🌱 Eco</div>
                         </div>
 
                         <div class="module-card" onclick="openModal('seguridad')">
@@ -1190,6 +1201,220 @@
         </div>
     </div>
 
+    <!-- Modal: Comparativa Eléctrico vs Gasolina -->
+    <div id="comparativa-electrico" class="modal">
+        <div class="modal-content" style="max-width: 1100px;">
+            <div class="modal-header">
+                <h2 class="modal-title">🔋 Eléctrico vs Gasolina - Comparativa Completa</h2>
+                <button class="close-btn" onclick="closeModal('comparativa-electrico')">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- Header Informativo -->
+                <div style="padding: 20px; background: linear-gradient(135deg, rgba(0, 200, 83, 0.1) 0%, rgba(178, 255, 89, 0.1) 100%); border-radius: 12px; border: 2px solid var(--primary-green); margin-bottom: 24px; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 12px;">⚡🌱🏔️</div>
+                    <h3 style="font-size: 20px; font-weight: 800; color: var(--primary-green); margin-bottom: 8px;">¿Por qué Quantum Eléctrico?</h3>
+                    <p style="font-size: 14px; color: var(--text-gray);">Ahorro económico + Ventaja en altura + Cero emisiones</p>
+                </div>
+
+                <!-- Calculadora de Ahorro -->
+                <div style="background: var(--bg-dark); padding: 24px; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 24px;">
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 32px;">💰</span>
+                        <span>Calculadora de Ahorro Anual</span>
+                    </h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Kilómetros Recorridos al Año</label>
+                            <input type="number" id="kmAnual" value="15000" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light); font-size: 16px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Precio Gasolina (Bs/litro)</label>
+                            <input type="number" id="precioGasolina" value="3.74" step="0.01" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light); font-size: 16px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Consumo Gasolina (km/litro)</label>
+                            <input type="number" id="consumoGasolina" value="12" step="0.1" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light); font-size: 16px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Costo Electricidad (Bs/kWh)</label>
+                            <input type="number" id="costoElectricidad" value="0.65" step="0.01" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light); font-size: 16px;">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%; margin-bottom: 20px;" onclick="calcularAhorro()">
+                        <span>🔋</span>
+                        <span>Calcular Ahorro</span>
+                    </button>
+
+                    <div id="resultadoAhorro" style="display: none;">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
+                            <div style="background: rgba(255, 87, 34, 0.1); padding: 20px; border-radius: 12px; border: 2px solid #FF5722; text-align: center;">
+                                <div style="font-size: 13px; color: #FF8A65; margin-bottom: 8px; font-weight: 700;">⛽ COSTO GASOLINA ANUAL</div>
+                                <div id="costoGasolinaAnual" style="font-size: 28px; font-weight: 800; color: #FF5722;">Bs. 4,675</div>
+                                <div style="font-size: 12px; color: var(--text-gray); margin-top: 4px;">Basado en tu consumo</div>
+                            </div>
+                            <div style="background: rgba(0, 200, 83, 0.1); padding: 20px; border-radius: 12px; border: 2px solid var(--primary-green); text-align: center;">
+                                <div style="font-size: 13px; color: var(--light-green); margin-bottom: 8px; font-weight: 700;">⚡ COSTO ELÉCTRICO ANUAL</div>
+                                <div id="costoElectricoAnual" style="font-size: 28px; font-weight: 800; color: var(--primary-green);">Bs. 1,463</div>
+                                <div style="font-size: 12px; color: var(--text-gray); margin-top: 4px;">15 kWh/100km promedio</div>
+                            </div>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%); padding: 24px; border-radius: 12px; text-align: center; box-shadow: 0 8px 24px rgba(0, 200, 83, 0.3);">
+                            <div style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px;">💚 TU AHORRO ANUAL</div>
+                            <div id="ahorroTotal" style="font-size: 42px; font-weight: 900; color: white; margin-bottom: 8px;">Bs. 3,212</div>
+                            <div style="font-size: 14px; color: rgba(255,255,255,0.9);">En <strong id="aniosRecupera">3.5</strong> años recuperas la diferencia de precio</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ventaja en Altura (La Paz) -->
+                <div style="background: var(--bg-dark); padding: 24px; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 24px;">
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 32px;">🏔️</span>
+                        <span>Ventaja en Altura - La Paz (3,640 msnm)</span>
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                        <div style="background: rgba(255, 87, 34, 0.1); padding: 20px; border-radius: 12px; border: 2px solid #FF5722;">
+                            <div style="text-align: center; margin-bottom: 16px;">
+                                <div style="font-size: 48px; margin-bottom: 8px;">⛽</div>
+                                <div style="font-size: 16px; font-weight: 700; color: #FF5722; margin-bottom: 12px;">Motor a Gasolina</div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-gray); line-height: 1.8;">
+                                <div style="margin-bottom: 12px; padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                                    <strong style="color: #FF5722;">❌ Pérdida de potencia: 20-25%</strong><br>
+                                    <span style="font-size: 12px;">Menos oxígeno = combustión ineficiente</span>
+                                </div>
+                                <div style="margin-bottom: 12px; padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                                    <strong style="color: #FF5722;">❌ Mayor consumo de combustible</strong><br>
+                                    <span style="font-size: 12px;">+15% más gasolina en altura</span>
+                                </div>
+                                <div style="padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                                    <strong style="color: #FF5722;">❌ Arranque difícil en frío</strong><br>
+                                    <span style="font-size: 12px;">Especialmente en invierno</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(0, 200, 83, 0.1); padding: 20px; border-radius: 12px; border: 2px solid var(--primary-green);">
+                            <div style="text-align: center; margin-bottom: 16px;">
+                                <div style="font-size: 48px; margin-bottom: 8px;">⚡</div>
+                                <div style="font-size: 16px; font-weight: 700; color: var(--primary-green); margin-bottom: 12px;">Motor Eléctrico Quantum</div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--text-gray); line-height: 1.8;">
+                                <div style="margin-bottom: 12px; padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                                    <strong style="color: var(--primary-green);">✅ 100% de potencia siempre</strong><br>
+                                    <span style="font-size: 12px;">No depende del oxígeno atmosférico</span>
+                                </div>
+                                <div style="margin-bottom: 12px; padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                                    <strong style="color: var(--primary-green);">✅ Misma eficiencia en altura</strong><br>
+                                    <span style="font-size: 12px;">Sin pérdida de rendimiento</span>
+                                </div>
+                                <div style="padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                                    <strong style="color: var(--primary-green);">✅ Arranque instantáneo</strong><br>
+                                    <span style="font-size: 12px;">En cualquier temperatura</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 16px; background: rgba(0, 200, 83, 0.1); border-radius: 12px; border-left: 4px solid var(--primary-green);">
+                        <strong style="color: var(--primary-green);">💡 Ventaja Quantum en La Paz:</strong> Mientras los autos a gasolina pierden hasta 25% de potencia, tu Quantum mantiene el 100% de su rendimiento en cualquier altura.
+                    </div>
+                </div>
+
+                <!-- Impacto Ambiental -->
+                <div style="background: var(--bg-dark); padding: 24px; border-radius: 16px; border: 1px solid var(--border-color);">
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 32px;">🌱</span>
+                        <span>Impacto Ambiental - Tu Huella de Carbono</span>
+                    </h3>
+
+                    <div id="impactoAmbiental">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;">
+                            <div style="background: var(--bg-card); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
+                                <div style="font-size: 36px; margin-bottom: 8px;">🌳</div>
+                                <div style="font-size: 13px; color: var(--text-gray); margin-bottom: 8px;">ÁRBOLES EQUIVALENTES</div>
+                                <div id="arbolesAhorro" style="font-size: 28px; font-weight: 800; color: var(--primary-green);">47</div>
+                                <div style="font-size: 11px; color: var(--text-gray); margin-top: 4px;">árboles plantados/año</div>
+                            </div>
+
+                            <div style="background: var(--bg-card); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
+                                <div style="font-size: 36px; margin-bottom: 8px;">💨</div>
+                                <div style="font-size: 13px; color: var(--text-gray); margin-bottom: 8px;">CO₂ EVITADO</div>
+                                <div id="co2Ahorro" style="font-size: 28px; font-weight: 800; color: var(--primary-green);">2.4</div>
+                                <div style="font-size: 11px; color: var(--text-gray); margin-top: 4px;">toneladas CO₂/año</div>
+                            </div>
+
+                            <div style="background: var(--bg-card); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center;">
+                                <div style="font-size: 36px; margin-bottom: 8px;">🌍</div>
+                                <div style="font-size: 13px; color: var(--text-gray); margin-bottom: 8px;">EN 10 AÑOS</div>
+                                <div id="co210anios" style="font-size: 28px; font-weight: 800; color: var(--primary-green);">24</div>
+                                <div style="font-size: 11px; color: var(--text-gray); margin-top: 4px;">toneladas CO₂ menos</div>
+                            </div>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%); padding: 24px; border-radius: 12px; margin-bottom: 20px;">
+                            <div style="text-align: center; color: white;">
+                                <div style="font-size: 48px; margin-bottom: 12px;">🌍💚</div>
+                                <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Tu Contribución al Planeta</div>
+                                <div style="font-size: 14px; opacity: 0.95;">Con un Quantum eléctrico, reduces emisiones equivalentes a plantar <strong id="arbolesTotal">470 árboles</strong> en 10 años</div>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                            <div style="padding: 20px; background: rgba(255, 87, 34, 0.1); border-radius: 12px; border-left: 4px solid #FF5722;">
+                                <div style="font-size: 16px; font-weight: 700; color: #FF5722; margin-bottom: 12px;">❌ Auto a Gasolina</div>
+                                <div style="font-size: 13px; color: var(--text-gray); line-height: 1.8;">
+                                    • Emite <strong>160g CO₂/km</strong><br>
+                                    • Contamina aire urbano<br>
+                                    • Contribuye al calentamiento global<br>
+                                    • Ruido contaminante<br>
+                                    • Partículas nocivas (PM2.5)
+                                </div>
+                            </div>
+
+                            <div style="padding: 20px; background: rgba(0, 200, 83, 0.1); border-radius: 12px; border-left: 4px solid var(--primary-green);">
+                                <div style="font-size: 16px; font-weight: 700; color: var(--primary-green); margin-bottom: 12px;">✅ Quantum Eléctrico</div>
+                                <div style="font-size: 13px; color: var(--text-gray); line-height: 1.8;">
+                                    • <strong>0g CO₂</strong> en circulación<br>
+                                    • Aire limpio para tu ciudad<br>
+                                    • Futuro sostenible<br>
+                                    • Silencioso y eficiente<br>
+                                    • Cero partículas contaminantes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen Final -->
+                <div style="margin-top: 24px; padding: 24px; background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%); border-radius: 12px; text-align: center; box-shadow: 0 8px 24px rgba(0, 200, 83, 0.3);">
+                    <div style="font-size: 20px; font-weight: 800; color: white; margin-bottom: 16px;">🎯 ¿Por Qué Elegir Quantum Eléctrico?</div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; color: white;">
+                        <div>
+                            <div style="font-size: 32px; margin-bottom: 8px;">💰</div>
+                            <div style="font-size: 14px; font-weight: 700;">AHORRA DINERO</div>
+                            <div style="font-size: 12px; opacity: 0.9;">68% menos costo operativo</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 32px; margin-bottom: 8px;">🏔️</div>
+                            <div style="font-size: 14px; font-weight: 700;">VENTAJA EN ALTURA</div>
+                            <div style="font-size: 12px; opacity: 0.9;">100% potencia en La Paz</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 32px; margin-bottom: 8px;">🌱</div>
+                            <div style="font-size: 14px; font-weight: 700;">CUIDA EL PLANETA</div>
+                            <div style="font-size: 12px; opacity: 0.9;">Cero emisiones locales</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function showSection(section) {
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -1239,6 +1464,54 @@
             document.getElementById('coopDetails').textContent = `Mensual - ${months} meses (10% anual)`;
 
             document.getElementById('results').style.display = 'grid';
+        }
+
+        function calcularAhorro() {
+            // Obtener valores
+            const kmAnual = parseFloat(document.getElementById('kmAnual').value) || 15000;
+            const precioGasolina = parseFloat(document.getElementById('precioGasolina').value) || 3.74;
+            const consumoGasolina = parseFloat(document.getElementById('consumoGasolina').value) || 12;
+            const costoElectricidad = parseFloat(document.getElementById('costoElectricidad').value) || 0.65;
+            
+            // Consumo eléctrico promedio: 15 kWh por 100 km
+            const consumoElectricoPor100km = 15;
+            
+            // Cálculos
+            const litrosGasolinaAnual = kmAnual / consumoGasolina;
+            const costoGasolinaAnual = litrosGasolinaAnual * precioGasolina;
+            
+            const kWhAnual = (kmAnual / 100) * consumoElectricoPor100km;
+            const costoElectricoAnual = kWhAnual * costoElectricidad;
+            
+            const ahorroAnual = costoGasolinaAnual - costoElectricoAnual;
+            
+            // Diferencia de precio promedio entre eléctrico y gasolina
+            const diferenciaPrecios = 15000; // Bs.
+            const aniosRecuperacion = diferenciaPrecios / ahorroAnual;
+            
+            // Impacto ambiental
+            // Promedio: 1 litro de gasolina = 2.3 kg de CO2
+            const co2PorLitro = 2.3;
+            const co2Anual = (litrosGasolinaAnual * co2PorLitro) / 1000; // en toneladas
+            
+            // 1 árbol absorbe aproximadamente 21 kg de CO2 por año
+            const co2PorArbol = 0.021; // toneladas
+            const arbolesEquivalentes = Math.round(co2Anual / co2PorArbol);
+            
+            // Actualizar resultados
+            document.getElementById('costoGasolinaAnual').textContent = 'Bs. ' + Math.round(costoGasolinaAnual).toLocaleString();
+            document.getElementById('costoElectricoAnual').textContent = 'Bs. ' + Math.round(costoElectricoAnual).toLocaleString();
+            document.getElementById('ahorroTotal').textContent = 'Bs. ' + Math.round(ahorroAnual).toLocaleString();
+            document.getElementById('aniosRecupera').textContent = aniosRecuperacion.toFixed(1);
+            
+            // Impacto ambiental
+            document.getElementById('arbolesAhorro').textContent = arbolesEquivalentes;
+            document.getElementById('co2Ahorro').textContent = co2Anual.toFixed(1);
+            document.getElementById('co210anios').textContent = (co2Anual * 10).toFixed(0);
+            document.getElementById('arbolesTotal').textContent = (arbolesEquivalentes * 10).toLocaleString();
+            
+            // Mostrar resultados
+            document.getElementById('resultadoAhorro').style.display = 'block';
         }
 
         document.querySelectorAll('.modal').forEach(modal => {
